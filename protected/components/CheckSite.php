@@ -20,7 +20,7 @@ class CheckSite extends CApplicationComponent {
      * @param $method int The type of check to use. Should be CheckSite::$CURL (default) or CheckSite::$SOCKET
      * @return bool true if the site returns an HTTP 2XX OK response within the timeout value
      */
-    public function isOnline($url, $timeout = 10, $method = 2) {
+    public function isOnline($url, $timeout = 10, $method = 1) {
         switch ($method) {
             case CheckSite::$CURL:
                 return $this->isOnlineCurl($url, $timeout);
@@ -45,6 +45,7 @@ class CheckSite extends CApplicationComponent {
             curl_setopt($curl, CURLOPT_HEADER, true);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+            curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
             curl_exec($curl);
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             curl_close($curl);
@@ -73,6 +74,10 @@ class CheckSite extends CApplicationComponent {
     protected function isOnlineSocket($url, $timeout) {
         try {
             $urlParsed = parse_url($url);
+
+            if (!array_key_exists('host', $urlParsed)) {
+                return false;
+            }
 
             $host = $urlParsed['host'];
             if ($url == '' || $host == '') {
