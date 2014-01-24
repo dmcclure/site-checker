@@ -84,6 +84,7 @@ class CheckSite extends CApplicationComponent {
                 $port = $urlParsed['port'];
             }
 
+            // Construct the data will will send in the HTTP request
             $path = empty($urlParsed['path']) ? '/' : $urlParsed['path'];
             $path .= !empty($urlParsed['query']) ? '?' . $urlParsed['query'] : '';
             $out = "GET $path HTTP/1.0\r\n";
@@ -94,6 +95,7 @@ class CheckSite extends CApplicationComponent {
             $errno = null;
             $errstr = null;
 
+            // Open the socket connection to the host
             $fp = @fsockopen($host, $port, $errno, $errstr, $timeout);
             if ($fp === FALSE) {
                 return false;
@@ -102,6 +104,7 @@ class CheckSite extends CApplicationComponent {
             $headers = '';
             $isBody = false;
 
+            // Read the HTTP headers
             while (!feof($fp) and !$isBody) {
                 $buf = fgets($fp, 1024);
 
@@ -113,7 +116,9 @@ class CheckSite extends CApplicationComponent {
                 }
             }
 
+            // Disconnect from the host
             fclose($fp);
+
             $headers = explode("\r\n", $headers);
 
             // Strip the "HTTP/X.X " prefix and any string suffix from the HTTP response
@@ -128,8 +133,9 @@ class CheckSite extends CApplicationComponent {
                 // Request the URL from the new location (which is in the "Location:" header)
                 $newLocation = '';
                 foreach ($headers as $header) {
-                    if (stripos($header, 'Location:') === 0)
+                    if (stripos($header, 'Location:') === 0) {
                         $newLocation = trim(substr($header, strpos($header, ':') + 1));
+                    }
                 }
 
                 if (empty($newLocation)) {
