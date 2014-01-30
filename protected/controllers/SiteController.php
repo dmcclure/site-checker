@@ -1,25 +1,7 @@
 <?php
 
-class SiteController extends Controller
+class SiteController extends CController
 {
-    /**
-     * Declares class-based actions.
-     */
-    public function actions()
-    {
-        return array(
-            // captcha action renders the CAPTCHA image displayed on the contact page
-            'captcha'=>array(
-                'class'=>'CCaptchaAction',
-                'backColor'=>0xFFFFFF,
-            ),
-            // page action renders "static" pages stored under 'protected/views/site/pages'
-            // They can be accessed via: index.php?r=site/page&view=FileName
-            'page'=>array(
-                'class'=>'CViewAction',
-            ),
-        );
-    }
 
     /**
      * This is the default 'index' action that is invoked
@@ -37,21 +19,19 @@ class SiteController extends Controller
             if ($model->validate())
             {
                 // Check whether the site is online
-                $model->siteOk = Yii::app()->checkSite->isOnline($model->url);
-
-                // Log the site check to the DB
-                $siteCheckDao = new SiteCheckDao();
-                $siteCheckDao->url = $model->url;
-                $siteCheckDao->site_ok = $model->siteOk;
-                if (!$siteCheckDao->save()) {
-                    Yii::log('Unable to save site check record', CLogger::LEVEL_ERROR, 'controllers.SiteController');
-                }
+                $model->checkSite();
             }
         }
 
-        // Have the model load the most recent site checks from the DB
-        $model->loadMostRecentChecks();
         $this->render('index', array('model'=>$model));
+    }
+
+    /**
+     * This is the action to handle the About page.
+     */
+    public function actionAbout()
+    {
+        $this->render('about');
     }
 
     /**

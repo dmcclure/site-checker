@@ -1,68 +1,76 @@
 <?php
 $this->pageTitle = Yii::app()->name;
-
-$model->verifyCode = '';
-
-if (!isset($model->siteOk)) {
-    echo '<h1>Welcome to <i>' . CHtml::encode(Yii::app()->name) . '!</i></h1>';
-}
-else if ($model->siteOk) {
-    echo '<div class="flash-success">' . $model->url . ' is online!</div>';
-}
-else {
-    echo '<div class="flash-error">' . $model->url . ' is down!</div>';
-}
 ?>
+	<div class="jumbotron">
+		<div class="container">
+			<h2>Need to know if a site is up?</h2>
+			<p>Just enter a URL below and we'll check whether the site is working</p>
 
-<p>Enter a URL below to check whether the site is working normally</p>
+			<form class="form-inline" method="post">
+				<fieldset>
 
-<div class="form">
+					<!-- URL input-->
+					<div class="control-group">
+						<input id="url" name="CheckSiteForm[url]" type="text" placeholder=" Enter a URL here" class="input-xlarge">
+					</div>
 
-    <?php $form=$this->beginWidget('CActiveForm', array(
-        'id'=>'site-check-form',
-        'enableClientValidation'=>true,
-        'clientOptions'=>array(
-            'validateOnSubmit'=>true,
-        ),
-    )); ?>
+					<!-- Multiple Radios (inline) -->
+					<div class="control-group">
+						<label class="radio inline" for="test-method-0">
+							<input type="radio" name="CheckSiteForm[testMethod]" id="test-method-0" value="1" checked="checked">
+							Use the cURL library
+						</label>
+						<label class="radio inline" for="test-method-1">
+							<input type="radio" name="CheckSiteForm[testMethod]" id="test-method-1" value="2">
+							Use a manual socket connection
+						</label>
+					</div>
 
-    <?php echo $form->errorSummary($model); ?>
+					<!-- Submit Button -->
+					<div class="form-actions">
+						<div class="controls">
+							<button type="submit" class="btn btn-primary btn-lg">Check the site &raquo;</button>
+						</div>
+					</div>
 
-    <div class="row">
-        <?php echo $form->labelEx($model, 'url'); ?>
-        <?php echo $form->textField($model, 'url', array('size'=>50)); ?>
-        <?php echo $form->error($model, 'url'); ?>
-    </div>
-
-    <?php if(CCaptcha::checkRequirements()): ?>
-        <div class="row">
-            <?php echo $form->labelEx($model, 'verifyCode'); ?>
-            <div>
-                <?php $this->widget('CCaptcha'); ?>
-                <?php echo $form->textField($model, 'verifyCode'); ?>
-            </div>
-            <div class="hint">Please enter the letters as they are shown in the image above.
-                <br/>Letters are not case-sensitive.</div>
-            <?php echo $form->error($model, 'verifyCode'); ?>
-        </div>
-    <?php endif; ?>
-
-    <div class="row buttons">
-        <?php echo CHtml::submitButton('Submit'); ?>
-    </div>
-
-    <?php $this->endWidget(); ?>
-
-</div><!-- form -->
+				</fieldset>
+			</form>
+		</div>
+		<?php
+			if ($model->isSiteOk() === true) {
+				echo '<div class="container"><br><div class="alert alert-success"><strong>' . $model->url . '</strong> is online!</div></div>';
+			}
+			elseif ($model->isSiteOk() === false) {
+				echo '<div class="container"><br><div class="alert alert-danger"><strong>' . $model->url . '</strong> appears to be offline</div></div>';
+			}
+		?>
+	</div>
 
 <?php
-if (is_array($model->siteChecks)) {
-    echo '<p><br><br>Five most recent site checks:</p><ul>';
-
-    foreach ($model->siteChecks as $siteCheck) {
-        echo '<li>&quot;' . $siteCheck->url . '&quot; - ';
-        echo $siteCheck->site_ok ? 'ONLINE' : 'DOWN';
-        echo ' (' . $siteCheck->check_date . ')</li>';
-    }
-}
+$siteChecks = $model->getSiteChecks();
+if (is_array($siteChecks)):
 ?>
+	<div class="container">
+		<h3>Most recent site checks:</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>URL</th>
+					<th>Status</th>
+					<th>Date</th>
+					<th>Location</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+					foreach ($model->siteChecks as $siteCheck) {
+						echo '<tr class="' . ($siteCheck->site_ok ? 'success' : 'danger') . '"><td>' . $siteCheck->url . '</td>';
+						echo '<td>' . ($siteCheck->site_ok ? 'ONLINE' : 'DOWN') . '</td>';
+						echo '<td>' . $siteCheck->check_date . '</td>';
+						echo '<td>' . "Location here" . '</td></tr>';
+					}
+				?>
+			</tbody>
+		</table>
+	</div>
+<?php endif; ?>

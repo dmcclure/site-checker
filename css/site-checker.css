@@ -1,0 +1,29 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+h2 {
+    margin-top: 0px;
+}
+
+footer {
+    text-align: center;
+    color: darkgray;
+}
+
+.input-xlarge {
+    width: 50%;
+    padding-left: 10px;
+}
+
+.radio {
+    margin-left: 1.5em;
+    font-size: 19px;
+    font-weight: 200;
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
