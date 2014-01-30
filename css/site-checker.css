@@ -13,17 +13,22 @@ footer {
     color: darkgray;
 }
 
-.input-xlarge {
-    width: 50%;
+input[type="text"] {
+    max-width: 80%;
     padding-left: 10px;
 }
 
-.radio {
+.radio-inline {
     margin-left: 1.5em;
     font-size: 19px;
     font-weight: 200;
+    margin-top: 50px;
 }
 
-.control-group {
+.radio-inline input[type="radio"] {
+    margin-top: 11px;
+}
+
+.form-group {
     margin-bottom: 20px;
 }

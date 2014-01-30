@@ -20,7 +20,7 @@ class CheckSiteForm extends CFormModel
     {
         return array(
             array('url', 'required'), // url is required
-            array('url', 'url', 'defaultScheme' => 'http'), // The url value has to be a valid URL
+            array('url', 'url', 'defaultScheme' => 'http', 'message'=>"&quot;{$_POST['CheckSiteForm']['url']}&quot; is not a valid URL"), // The url value has to be a valid URL
 			array('testMethod', 'in', 'range'=>array(CheckSite::$CURL, CheckSite::$SOCKET)), // The test method must be valid
         );
     }
@@ -45,6 +45,8 @@ class CheckSiteForm extends CFormModel
 	{
 		$this->siteOk = Yii::app()->checkSite->isOnline($this->url, $this->testMethod);
 
+		// Find the location of the user (coming soon...)
+
 		// Log the site check to the DB
 		$siteCheckDao = new SiteCheckDao();
 		$siteCheckDao->url = $this->url;
@@ -63,10 +65,10 @@ class CheckSiteForm extends CFormModel
 	}
 
 	/**
-	 * @param $numChecks int The number of site checks to load from the DB (defaults to 5)
+	 * @param $numChecks int The number of site checks to load from the DB (defaults to 8)
 	 * @return array An array of SiteCheckDao objects representing the most recent site checks stored in the DB
 	 */
-	public function getSiteChecks($numChecks = 5)
+	public function getSiteChecks($numChecks = 8)
 	{
 		if (!isset($this->siteChecks))
 		{

@@ -6,22 +6,27 @@ $this->pageTitle = Yii::app()->name;
 			<h2>Need to know if a site is up?</h2>
 			<p>Just enter a URL below and we'll check whether the site is working</p>
 
-			<form class="form-inline" method="post">
+			<form class="form-horizontal" method="post">
 				<fieldset>
 
 					<!-- URL input-->
-					<div class="control-group">
-						<input id="url" name="CheckSiteForm[url]" type="text" placeholder=" Enter a URL here" class="input-xlarge">
+					<div class="form-group<?php if ($model->getError('url')) echo ' has-error'; ?>">
+						<input id="url" name="CheckSiteForm[url]" type="text" placeholder=" Enter a URL here" value="<?= $model->url ?>" size="25">
+						<?php
+							if ($model->getError('url')) {
+								echo '<span class="help-block">' . $model->getError('url') . '</span>';
+							}
+						?>
 					</div>
 
 					<!-- Multiple Radios (inline) -->
-					<div class="control-group">
-						<label class="radio inline" for="test-method-0">
-							<input type="radio" name="CheckSiteForm[testMethod]" id="test-method-0" value="1" checked="checked">
+					<div class="form-group">
+						<label class="radio-inline">
+							<input type="radio" name="CheckSiteForm[testMethod]" value="1" checked="checked">
 							Use the cURL library
 						</label>
-						<label class="radio inline" for="test-method-1">
-							<input type="radio" name="CheckSiteForm[testMethod]" id="test-method-1" value="2">
+						<label class="radio-inline">
+							<input type="radio" name="CheckSiteForm[testMethod]" value="2">
 							Use a manual socket connection
 						</label>
 					</div>
@@ -58,7 +63,7 @@ if (is_array($siteChecks)):
 					<th>URL</th>
 					<th>Status</th>
 					<th>Date</th>
-					<th>Location</th>
+<!--					<th>Location</th>-->
 				</tr>
 			</thead>
 			<tbody>
@@ -67,7 +72,7 @@ if (is_array($siteChecks)):
 						echo '<tr class="' . ($siteCheck->site_ok ? 'success' : 'danger') . '"><td>' . $siteCheck->url . '</td>';
 						echo '<td>' . ($siteCheck->site_ok ? 'ONLINE' : 'DOWN') . '</td>';
 						echo '<td>' . $siteCheck->check_date . '</td>';
-						echo '<td>' . "Location here" . '</td></tr>';
+//						echo '<td>' . $siteCheck->location . '</td></tr>';
 					}
 				?>
 			</tbody>
