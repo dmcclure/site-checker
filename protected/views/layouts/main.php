@@ -44,7 +44,7 @@
 
 <footer>
 	<hr>
-	<p>&copy; David McClure <?php echo date("Y"); ?></p>
+	<p>&copy; <a href="http://davemac.info" target="_blank">Dave J. McClure</a> <?php echo date("Y"); ?></p>
 </footer>
 
 <!-- Bootstrap core JavaScript. Placed at the end of the document so the page loads faster -->

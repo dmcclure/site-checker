@@ -45,8 +45,6 @@ class CheckSiteForm extends CFormModel
 	{
 		$this->siteOk = Yii::app()->checkSite->isOnline($this->url, $this->testMethod);
 
-		// Find the location of the user (coming soon...)
-
 		// Log the site check to the DB
 		$siteCheckDao = new SiteCheckDao();
 		$siteCheckDao->url = $this->url;

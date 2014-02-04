@@ -30,7 +30,7 @@ class SiteCheckDao extends CActiveRecord
         return array(
             array('url', 'required'),
             array('check_date', 'default', 'value'=>date('Y-m-d H:i:s'), 'setOnEmpty'=>true, 'on'=>'insert'),
-            array('url, location', 'length', 'max'=>200),
+            array('url', 'length', 'max'=>200),
             array('site_ok', 'boolean', 'allowEmpty'=>false),
             array('id, check_date', 'unsafe'),  // Attributes that cannot be specified in create/update operations
         );

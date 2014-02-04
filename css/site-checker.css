@@ -13,6 +13,11 @@ footer {
     color: darkgray;
 }
 
+footer a {
+    color: darkgray;
+    text-decoration: underline;
+}
+
 input[type="text"] {
     max-width: 80%;
     padding-left: 10px;

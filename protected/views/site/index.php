@@ -63,7 +63,6 @@ if (is_array($siteChecks)):
 					<th>URL</th>
 					<th>Status</th>
 					<th>Date</th>
-<!--					<th>Location</th>-->
 				</tr>
 			</thead>
 			<tbody>
@@ -72,7 +71,6 @@ if (is_array($siteChecks)):
 						echo '<tr class="' . ($siteCheck->site_ok ? 'success' : 'danger') . '"><td>' . $siteCheck->url . '</td>';
 						echo '<td>' . ($siteCheck->site_ok ? 'ONLINE' : 'DOWN') . '</td>';
 						echo '<td>' . $siteCheck->check_date . '</td>';
-//						echo '<td>' . $siteCheck->location . '</td></tr>';
 					}
 				?>
 			</tbody>
