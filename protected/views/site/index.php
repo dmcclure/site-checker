@@ -55,11 +55,17 @@ $this->pageTitle = Yii::app()->name;
 	});
 
 	$('#submit-button').click(function() {
+		if (jQuery.trim($('#url').val()).length == 0) {
+			renderError('Please enter a URL');
+			return;
+		}
+
 		ladda.start();
 		$('#submit-button').prop('disabled', true);
 		$.getJSON('/sitecheck', $('#site-check-form').serialize(),
 			function(data) {
 				ladda.stop();
+				$('#submit-button').prop('disabled', false);
 				if (data.validation_error) {
 					renderError(data.validation_error);
 				}
@@ -72,9 +78,9 @@ $this->pageTitle = Yii::app()->name;
 				loadRecentSiteChecks();
 			}).fail(function(jqXHR, textStatus, errorThrown) {
 				ladda.stop();
+				$('#submit-button').prop('disabled', false);
 				renderError(errorThrown);
 			});
-		$('#submit-button').prop('disabled', false);
 	});
 
 	function renderSuccess(message) {
