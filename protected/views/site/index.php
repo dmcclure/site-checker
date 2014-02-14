@@ -92,7 +92,7 @@ $this->pageTitle = Yii::app()->name;
 
 				for (var i = 0; i < data.length; i++) {
 					recentChecksTable += '<tr class="' + (data[i].site_ok == 1 ? 'success' : 'danger') + '"><td>' + data[i].url + '</td>';
-					recentChecksTable += '<td>' + (data[i].site_ok ? 'ONLINE' : 'DOWN') + '</td>';
+					recentChecksTable += '<td>' + (data[i].site_ok == 1 ? 'ONLINE' : 'DOWN') + '</td>';
 					recentChecksTable += '<td>' + data[i].check_date + '</td>';
 				}
 
