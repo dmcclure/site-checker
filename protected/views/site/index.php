@@ -39,38 +39,19 @@ $this->pageTitle = Yii::app()->name;
 		<div class="container" id="result"></div>
 	</div>
 
-<?php
-$siteChecks = $model->getSiteChecks();
-if (is_array($siteChecks)):
-?>
 	<div class="container">
 		<h3>Most recent site checks:</h3>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>URL</th>
-					<th>Status</th>
-					<th>Date</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php
-					foreach ($model->siteChecks as $siteCheck) {
-						echo '<tr class="' . ($siteCheck->site_ok ? 'success' : 'danger') . '"><td>' . $siteCheck->url . '</td>';
-						echo '<td>' . ($siteCheck->site_ok ? 'ONLINE' : 'DOWN') . '</td>';
-						echo '<td>' . $siteCheck->check_date . '</td>';
-					}
-				?>
-			</tbody>
-		</table>
+		<div id="recent-site-checks">
+			<p>Loading...</p>
+		</div>
 	</div>
-<?php endif; ?>
 
 <script type="text/javascript">
 	var ladda;
 
 	$(document).ready(function() {
 		ladda = Ladda.create(document.querySelector('#submit-button'));
+		loadRecentSiteChecks();
 	});
 
 	$('#submit-button').click(function() {
@@ -88,6 +69,7 @@ if (is_array($siteChecks)):
 				else {
 					renderError(data.url + ' appears to be offline');
 				}
+				loadRecentSiteChecks();
 			}).fail(function(jqXHR, textStatus, errorThrown) {
 				ladda.stop();
 				renderError(errorThrown);
@@ -101,5 +83,23 @@ if (is_array($siteChecks)):
 
 	function renderError(message) {
 		$('#result').html('<br><div class="alert alert-danger"><strong>' + message + '</div>')
+	}
+
+	function loadRecentSiteChecks() {
+		$.getJSON('/recentsitechecks',
+			function(data) {
+				var recentChecksTable = '<table class="table"><thead><tr><th>URL</th><th>Status</th><th>Date (PST)</th></tr></thead><tbody>';
+
+				for (var i = 0; i < data.length; i++) {
+					recentChecksTable += '<tr class="' + (data[i].site_ok == 1 ? 'success' : 'danger') + '"><td>' + data[i].url + '</td>';
+					recentChecksTable += '<td>' + (data[i].site_ok ? 'ONLINE' : 'DOWN') + '</td>';
+					recentChecksTable += '<td>' + data[i].check_date + '</td>';
+				}
+
+				recentChecksTable += '</tbody></table>';
+				$('#recent-site-checks').html(recentChecksTable);
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+				$('#recent-site-checks').html('<p>Loading failed</p>');
+			});
 	}
 </script>

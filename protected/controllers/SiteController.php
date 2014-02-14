@@ -66,4 +66,13 @@ class SiteController extends CController
 		echo CJSON::encode($returnJson);
 		Yii::app()->end();
 	}
+
+	public function actionRecentsitechecks()
+	{
+		header('Content-type: application/json');
+		$model = new CheckSiteForm();
+		$siteChecks = $model->getSiteChecks();
+		echo CJSON::encode($siteChecks);
+		Yii::app()->end();
+	}
 }
