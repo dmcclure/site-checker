@@ -20,7 +20,7 @@ class CheckSiteForm extends CFormModel
     {
         return array(
             array('url', 'required'), // url is required
-            array('url', 'url', 'defaultScheme' => 'http', 'message'=>"&quot;{$_POST['CheckSiteForm']['url']}&quot; is not a valid URL"), // The url value has to be a valid URL
+            array('url', 'url', 'defaultScheme' => 'http', 'message'=>"&quot;{$_GET['CheckSiteForm']['url']}&quot; is not a valid URL"), // The url value has to be a valid URL
 			array('testMethod', 'in', 'range'=>array(CheckSite::$CURL, CheckSite::$SOCKET)), // The test method must be valid
         );
     }

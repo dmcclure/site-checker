@@ -9,10 +9,13 @@
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+	<script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 	<![endif]-->
-
+	<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="/js/spin.min.js"></script>
+	<script src="/js/ladda.min.js"></script>
+	<link rel="stylesheet" href="/css/ladda-themeless.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/site-checker.css">
@@ -48,7 +51,6 @@
 </footer>
 
 <!-- Bootstrap core JavaScript. Placed at the end of the document so the page loads faster -->
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
 </body>

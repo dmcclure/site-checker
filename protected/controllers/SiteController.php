@@ -12,18 +12,8 @@ class SiteController extends CController
      */
     public function actionIndex()
     {
-        $model = new CheckSiteForm();
-        if (isset($_POST['CheckSiteForm']))
-        {
-            $model->attributes = $_POST['CheckSiteForm'];
-            if ($model->validate())
-            {
-                // Check whether the site is online
-                $model->checkSite();
-            }
-        }
-
-        $this->render('index', array('model'=>$model));
+		$model = new CheckSiteForm();
+		$this->render('index', array('model'=>$model));
     }
 
     /**
@@ -47,4 +37,33 @@ class SiteController extends CController
                 $this->render('error', $error);
         }
     }
+
+	public function actionSitecheck()
+	{
+		header('Content-type: application/json');
+
+		$model = new CheckSiteForm();
+		$returnJson = array();
+
+		if (isset($_GET['CheckSiteForm']))
+		{
+			$model->attributes = $_GET['CheckSiteForm'];
+
+			if ($model->validate())
+			{
+				// Check whether the site is online
+				$model->checkSite();
+			}
+
+			if ($model->hasErrors()) {
+				$returnJson = array('validation_error'=>CHtml::errorSummary($model));
+			}
+			else {
+				$returnJson = array('ok'=>$model->isSiteOk(), 'url'=>$model->url);
+			}
+		}
+
+		echo CJSON::encode($returnJson);
+		Yii::app()->end();
+	}
 }

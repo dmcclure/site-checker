@@ -36,4 +36,9 @@ input[type="text"] {
 
 .form-group {
     margin-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+#url {
+    margin-left: 15px;
 }

@@ -6,17 +6,12 @@ $this->pageTitle = Yii::app()->name;
 			<h2>Need to know if a site is up?</h2>
 			<p>Just enter a URL below and we'll check whether the site is working</p>
 
-			<form class="form-horizontal" method="post">
+			<form id="site-check-form" class="form-horizontal" onsubmit="$('#submit-button').click(); return false">
 				<fieldset>
 
 					<!-- URL input-->
-					<div class="form-group<?php if ($model->getError('url')) echo ' has-error'; ?>">
-						<input id="url" name="CheckSiteForm[url]" type="text" placeholder=" Enter a URL here" value="<?= $model->url ?>" size="25">
-						<?php
-							if ($model->getError('url')) {
-								echo '<span class="help-block">' . $model->getError('url') . '</span>';
-							}
-						?>
+					<div class="form-group">
+						<input id="url" name="CheckSiteForm[url]" type="text" placeholder=" Enter a URL here" size="50">
 					</div>
 
 					<!-- Multiple Radios (inline) -->
@@ -34,21 +29,14 @@ $this->pageTitle = Yii::app()->name;
 					<!-- Submit Button -->
 					<div class="form-actions">
 						<div class="controls">
-							<button type="submit" class="btn btn-primary btn-lg">Check the site &raquo;</button>
+							<button type="button" id="submit-button" class="btn btn-primary btn-lg ladda-button" data-style="expand-right" data-size="l">Check the site &raquo;</button>
 						</div>
 					</div>
 
 				</fieldset>
 			</form>
 		</div>
-		<?php
-			if ($model->isSiteOk() === true) {
-				echo '<div class="container"><br><div class="alert alert-success"><strong>' . $model->url . '</strong> is online!</div></div>';
-			}
-			elseif ($model->isSiteOk() === false) {
-				echo '<div class="container"><br><div class="alert alert-danger"><strong>' . $model->url . '</strong> appears to be offline</div></div>';
-			}
-		?>
+		<div class="container" id="result"></div>
 	</div>
 
 <?php
@@ -77,3 +65,41 @@ if (is_array($siteChecks)):
 		</table>
 	</div>
 <?php endif; ?>
+
+<script type="text/javascript">
+	var ladda;
+
+	$(document).ready(function() {
+		ladda = Ladda.create(document.querySelector('#submit-button'));
+	});
+
+	$('#submit-button').click(function() {
+		ladda.start();
+		$('#submit-button').prop('disabled', true);
+		$.getJSON('/sitecheck', $('#site-check-form').serialize(),
+			function(data) {
+				ladda.stop();
+				if (data.validation_error) {
+					renderError(data.validation_error);
+				}
+				else if (data.ok) {
+					renderSuccess(data.url + ' is online!');
+				}
+				else {
+					renderError(data.url + ' appears to be offline');
+				}
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+				ladda.stop();
+				renderError(errorThrown);
+			});
+		$('#submit-button').prop('disabled', false);
+	});
+
+	function renderSuccess(message) {
+		$('#result').html('<br><div class="alert alert-success"><strong>' + message + '</div>')
+	}
+
+	function renderError(message) {
+		$('#result').html('<br><div class="alert alert-danger"><strong>' + message + '</div>')
+	}
+</script>
