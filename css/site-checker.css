@@ -2,10 +2,23 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.navbar {
+    /*background: #3498db;*/
 }
 
 h2 {
     margin-top: 0px;
+}
+
+h3 {
+    font-size: 28px;
+    font-weight: 400;
+    font-family: 'Lato', sans-serif;
 }
 
 footer {
@@ -18,9 +31,25 @@ footer a {
     text-decoration: underline;
 }
 
+.jumbotron {
+    background-color: #3498db;
+    color: #fff;
+    font-size: 22px;
+    padding-bottom: 0;
+}
+
+.jumbotron h2 {
+    font-size: 45px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    font-family: 'Lato', sans-serif;
+}
+
 input[type="text"] {
     max-width: 80%;
     padding-left: 10px;
+    font-size: 18px;
+    border-radius: 8px;
 }
 
 .radio-inline {
@@ -41,4 +70,60 @@ input[type="text"] {
 
 #url {
     margin-left: 15px;
+}
+
+#submit-button {
+    -moz-box-shadow:inset 0px 1px 0px 0px #fce2c1;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #fce2c1;
+    box-shadow:inset 0px 1px 0px 0px #fce2c1;
+    background:#f0ad4e;
+    border-color:#f0ad4e;
+    -webkit-border-top-left-radius:6px;
+    -moz-border-radius-topleft:6px;
+    border-top-left-radius:6px;
+    -webkit-border-top-right-radius:6px;
+    -moz-border-radius-topright:6px;
+    border-top-right-radius:6px;
+    -webkit-border-bottom-right-radius:6px;
+    -moz-border-radius-bottomright:6px;
+    border-bottom-right-radius:6px;
+    -webkit-border-bottom-left-radius:6px;
+    -moz-border-radius-bottomleft:6px;
+    border-bottom-left-radius:6px;
+    text-indent:0;
+    color:#ffffff;
+    text-shadow:0px 1px 1px #5b3e2d;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 10px;
+}
+
+#submit-button:hover {
+     background-color:#fb9e25;
+}
+
+#submit-button:active {
+      position:relative;
+      top:1px;
+}
+
+#result {
+    margin-top: 18px;
+    margin-bottom: 0;
+}
+
+.alert {
+    margin-bottom: 15px;
+}
+
+.alert-danger {
+    background: #e7c3c3;
+}
+.alert-success {
+    background: #c8e5bc;
+}
+
+.table {
+    font-size: 17px;
 }

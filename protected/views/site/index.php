@@ -2,41 +2,47 @@
 $this->pageTitle = Yii::app()->name;
 ?>
 	<div class="jumbotron">
-		<div class="container">
-			<h2>Need to know if a site is up?</h2>
-			<p>Just enter a URL below and we'll check whether the site is working</p>
+		<div class="row">
+			<div class="col-sm-8">
+				<h2>Need to know if a site's up?</h2>
+				<p>Just enter a URL below and I'll see if the site's working</p>
 
-			<form id="site-check-form" class="form-horizontal" onsubmit="$('#submit-button').click(); return false">
-				<fieldset>
+				<form id="site-check-form" class="form-horizontal" onsubmit="$('#submit-button').click(); return false">
+					<fieldset>
 
-					<!-- URL input-->
-					<div class="form-group">
-						<input id="url" name="CheckSiteForm[url]" type="text" placeholder=" Enter a URL here" size="50">
-					</div>
-
-					<!-- Multiple Radios (inline) -->
-					<div class="form-group">
-						<label class="radio-inline">
-							<input type="radio" name="CheckSiteForm[testMethod]" value="1" checked="checked">
-							Use the cURL library
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="CheckSiteForm[testMethod]" value="2">
-							Use a manual socket connection
-						</label>
-					</div>
-
-					<!-- Submit Button -->
-					<div class="form-actions">
-						<div class="controls">
-							<button type="button" id="submit-button" class="btn btn-primary btn-lg ladda-button" data-style="expand-right" data-size="l">Check the site &raquo;</button>
+						<!-- URL input-->
+						<div class="form-group">
+							<input id="url" name="CheckSiteForm[url]" type="text" placeholder=" Enter a URL here" size="50">
 						</div>
-					</div>
 
-				</fieldset>
-			</form>
+						<!-- Multiple Radios (inline) -->
+						<div class="form-group">
+							<label class="radio-inline">
+								<input type="radio" name="CheckSiteForm[testMethod]" value="1" checked="checked">
+								Use the cURL library
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="CheckSiteForm[testMethod]" value="2">
+								Use a manual socket connection
+							</label>
+						</div>
+
+						<!-- Submit Button -->
+						<div class="form-actions">
+							<div class="controls">
+								<button type="button" id="submit-button" class="btn btn-primary btn-lg ladda-button" data-style="expand-right" data-size="l">Check the site &raquo;</button>
+							</div>
+						</div>
+
+					</fieldset>
+				</form>
+				<div class="container" id="result"></div>
+			</div>
+
+			<div class="col-sm-4">
+				<img class="img-responsive" src="/images/ipad-hand.png" alt>
+			</div>
 		</div>
-		<div class="container" id="result"></div>
 	</div>
 
 	<div class="container">
@@ -84,11 +90,11 @@ $this->pageTitle = Yii::app()->name;
 	});
 
 	function renderSuccess(message) {
-		$('#result').html('<br><div class="alert alert-success"><strong>' + message + '</div>')
+		$('#result').html('<div class="alert alert-success"><strong>' + message + '</div>')
 	}
 
 	function renderError(message) {
-		$('#result').html('<br><div class="alert alert-danger"><strong>' + message + '</div>')
+		$('#result').html('<div class="alert alert-danger"><strong>' + message + '</div>')
 	}
 
 	function loadRecentSiteChecks() {
